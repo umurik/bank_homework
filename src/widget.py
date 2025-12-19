@@ -16,3 +16,9 @@ def mask_account_card(bank_account: str) -> str:
         return f"{bank_chars + get_mask_account(bank_digits)}"
 
 
+def get_date(unformatted_date: str) -> str:
+    """Getting unformatted date and return date in format 'DD.MM.YYYY'"""
+    date = "".join(re.findall(r"\d{4}-\d{2}-\d{2}", unformatted_date))
+    formatted_date = re.sub(r"(\d{4}).(\d{2}).(\d{2})", r"\3.\2.\1", date)
+    return formatted_date
+
