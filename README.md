@@ -32,6 +32,7 @@ pytest --cov=src --cov-report=html
 
 - `tests/test_masks.py` — тесты для функций маскирования карт и счетов
 - `tests/test_processing.py` — тесты для функций фильтрации и сортировки
+- `tests/test_widget.py` — тесты для функций маскирования карт и счетов, и форматирования даты
 ## Примеры:
 
 ### Masks:
