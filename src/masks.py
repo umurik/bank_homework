@@ -1,6 +1,8 @@
 def get_mask_card_number(card_number: str) -> str:
     """Getting card number and return masked card number"""
-    if len(card_number) != 16:
+    if card_number is None:
+        raise ValueError("Wrong card number")
+    if len(card_number) != 16 or not card_number.isdigit():
         raise ValueError("Wrong card number")
     temp = list(card_number)
     mask_start = 5
@@ -18,6 +20,8 @@ def get_mask_card_number(card_number: str) -> str:
 
 def get_mask_account(bank_account: str) -> str:
     """Getting bank account and return masked bank account"""
+    if bank_account is None:
+        raise ValueError("Wrong bank account")
     if bank_account.isdigit() and len(bank_account) >= 4:
         formatted_bank_account = "**" + bank_account[-4:]
         return formatted_bank_account
