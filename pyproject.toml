@@ -13,7 +13,10 @@ dependencies = [
     "isort (>=7.0.0,<8.0.0)",
     "mypy (>=1.19.1,<2.0.0)",
     "python-dotenv (>=1.2.1,<2.0.0)",
-    "requests (>=2.32.5,<3.0.0)"
+    "requests (>=2.32.5,<3.0.0)",
+    "pandas (>=3.0.2,<4.0.0)",
+    "openpyxl (>=3.1.5,<4.0.0)",
+    "pandas-stubs (>=3.0.0.260204,<4.0.0.0)"
 ]
 
 [tool.black]
