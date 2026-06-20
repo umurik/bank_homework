@@ -30,7 +30,26 @@ def read_from_file(path_to_file: str, sep: str = ",") -> list:
                 "description": "",
             }
         )
-        dataframe["id"] = dataframe["id"].astype("Int64")
-        return dataframe.to_dict(orient="records")
+        dataframe = dataframe.astype(object)
+        flat_records = dataframe.to_dict(orient="records")
+        operations = []
+        for record in flat_records:
+            operation = {
+                "id": int(record.pop("id")),
+                "state": str(record.pop("state")),
+                "date": str(record.pop("date")),
+                "operationAmount": {
+                    "amount": str(record.pop("amount")),
+                    "currency": {
+                        "name": str(record.pop("currency_name")),
+                        "code": str(record.pop("currency_code")),
+                    },
+                },
+                "from": str(record.pop("from")),
+                "to": str(record.pop("to")),
+                "description": str(record.pop("description")),
+            }
+            operations.append(operation)
+        return operations
     except FileNotFoundError:
         return []

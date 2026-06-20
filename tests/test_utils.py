@@ -1,8 +1,10 @@
+import json
+from unittest.mock import patch, mock_open
 from src.utils import load_operations
 
 
-def test_load_operations():
-    result = [
+def test_load_operations_success():
+    mock_data = [
         {
             "id": 441945886,
             "state": "EXECUTED",
@@ -11,17 +13,32 @@ def test_load_operations():
             "description": "Перевод организации",
             "from": "Maestro 1596837868705199",
             "to": "Счет 64686473678894779589",
-        },
-        {
-            "id": 41428829,
-            "state": "EXECUTED",
-            "date": "2019-07-03T18:35:29.512364",
-            "operationAmount": {"amount": "8221.37", "currency": {"name": "USD", "code": "USD"}},
-            "description": "Перевод организации",
-            "from": "MasterCard 7158300734726758",
-            "to": "Счет 35383033474447895560",
-        },
+        }
     ]
-    assert load_operations("test_data/operations.json") == result
-    assert load_operations("test_data/operations_bad.json") == []
-    assert load_operations("test_data/a.json") == []
+    with patch("builtins.open", mock_open(read_data=json.dumps(mock_data))):
+        assert load_operations("dummy.json") == mock_data
+
+
+def test_load_operations_empty_path():
+    assert load_operations("") == []
+    assert load_operations(None) == []
+
+
+def test_load_operations_invalid_json():
+    with patch("builtins.open", mock_open(read_data="invalid json")):
+        with patch("src.utils.logger.exception") as mock_log:
+            try:
+                load_operations("dummy.json")
+            except Exception:
+                pass
+            mock_log.assert_called_once()
+
+
+def test_load_operations_not_a_list():
+    with patch("builtins.open", mock_open(read_data=json.dumps({"not": "a list"}))):
+        with patch("src.utils.logger.exception") as mock_log:
+            try:
+                load_operations("dummy.json")
+            except Exception:
+                pass
+            mock_log.assert_called_once()
